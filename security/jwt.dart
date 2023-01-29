@@ -6,8 +6,6 @@ import '../constant/constant.dart';
 import '../exception/exception.dart';
 import '../model/user.dart';
 
-T? cast<T>(dynamic x) => x is T ? x : null;
-
 String genToken(User user) {
   final jwt = JWT(
     {
@@ -20,8 +18,7 @@ String genToken(User user) {
   );
 
   // Sign it (default with HS256 algorithm)
-  final token = jwt.sign(SecretKey(AppConfig.jwtSecretKey));
-  return token;
+  return jwt.sign(SecretKey(AppConfig.jwtSecretKey));
 }
 
 User? decodeToken(String token) {

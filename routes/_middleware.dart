@@ -39,6 +39,8 @@ Handler verifyJwt(Handler handler) {
 
       final headers = context.request.headers;
       final authInfo = headers['Authorization'];
+      // Header: key = Authorization - value:  Bearer {token}
+      // authInfo = Bearer {token}
       if (authInfo == null || !authInfo.startsWith('Bearer ')) {
         return Response(statusCode: HttpStatus.badRequest);
       }

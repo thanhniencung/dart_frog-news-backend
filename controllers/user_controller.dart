@@ -12,6 +12,7 @@ import '../security/pass.dart';
 import '../validate/email.dart';
 import '../validate/pass.dart';
 import '../validate/strings.dart';
+import 'package:uuid/uuid.dart';
 
 class UserController {
   UserController(this._userRepository, this._logger);
@@ -93,7 +94,7 @@ class UserController {
     final completer = Completer<User>();
     final errMsgList = <String>[];
 
-    if (!isValidEmail(user.email!)) {
+    if (!isValidEmail(user.email)) {
       errMsgList.add(ExBus.emailInvalid.toString());
     }
 
@@ -115,6 +116,14 @@ class UserController {
       completer.completeError(GeneralException(errors));
       return completer.future;
     }
+
+    // generate id
+    const uuid = Uuid();
+    user.id = uuid.v4();
+
+    // generate password
+    // ignore: cascade_invocations
+    user.password = genPass(user.password!);
 
     final result = await _userRepository.saveUser(user);
     if (result > 0) {

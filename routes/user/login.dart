@@ -7,7 +7,6 @@ import 'package:dart_frog/dart_frog.dart';
 import '../../constant/constant.dart';
 import '../../controllers/user_controller.dart';
 import '../../model/response.dart';
-import '../../model/user.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   if (context.request.method.value != 'POST') {

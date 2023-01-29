@@ -1,3 +1,5 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 import 'dart:async';
 
 import 'package:uuid/uuid.dart';
@@ -24,23 +26,16 @@ class UserRepository implements IUserRepo {
   Future<int> saveUser(User user) async {
     _logger.log.info('register >> user = $user()');
 
-    // generate id
-    const uuid = Uuid();
-    final id = uuid.v4();
-
-    // generate password
-    final password = genPass(user.password!);
-
     final completer = Completer<int>();
     const query = '''
           INSERT INTO users (id, full_name, email, password, role) 
           VALUES (@id, @full_name, @email, @password, @role)
         ''';
     final params = {
-      'id': id,
+      'id': user.id,
       'full_name': user.fullName,
       'email': user.email,
-      'password': password,
+      'password': user.password,
       'role': Role.member.name
     };
     final result = await _db.executor.query(

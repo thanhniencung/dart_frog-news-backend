@@ -1,6 +1,7 @@
 import 'package:dbcrypt/dbcrypt.dart';
 
 String genPass(String plainPassword) {
+  // hash and salt string.
   return DBCrypt().hashpw(plainPassword, DBCrypt().gensalt());
 }
 
