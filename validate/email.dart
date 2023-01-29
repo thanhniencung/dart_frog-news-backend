@@ -1,6 +1,11 @@
 import 'dart:core';
 import 'package:email_validator/email_validator.dart';
 
-bool isValidEmail(String email) {
-  return EmailValidator.validate(email);
+import 'strings.dart';
+
+bool isValidEmail(String? email) {
+  if (isNullOrEmpty(email)) {
+    return false;
+  }
+  return EmailValidator.validate(email!);
 }

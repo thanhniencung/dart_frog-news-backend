@@ -1,0 +1,47 @@
+// ignore_for_file: avoid_dynamic_calls
+
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+
+import '../constant/constant.dart';
+import '../exception/exception.dart';
+import '../model/user.dart';
+
+T? cast<T>(dynamic x) => x is T ? x : null;
+
+String genToken(User user) {
+  final jwt = JWT(
+    {
+      'id': user.id,
+      'fullName': user.fullName,
+      'email': user.email,
+      'exp':
+          DateTime.now().add(const Duration(hours: 100)).millisecondsSinceEpoch,
+    },
+  );
+
+  // Sign it (default with HS256 algorithm)
+  final token = jwt.sign(SecretKey(AppConfig.jwtSecretKey));
+  return token;
+}
+
+User? decodeToken(String token) {
+  try {
+    final jwt = JWT.verify(token, SecretKey(AppConfig.jwtSecretKey));
+    return User(
+      id: jwt.payload['id'].toString(),
+      email: jwt.payload['email'].toString(),
+      fullName: jwt.payload['fullName'].toString(),
+    );
+  } catch (e) {
+    throw ExBus.tokenInvalid;
+  }
+}
+
+AppException? verifyToken(String token) {
+  try {
+    JWT.verify(token, SecretKey(AppConfig.jwtSecretKey));
+    return null;
+  } catch (e) {
+    return ExBus.tokenInvalid;
+  }
+}
