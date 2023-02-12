@@ -1,6 +1,9 @@
 run:
 	dart_frog dev 
 
+build:
+	dart_frog build 
+
 start_db:
 	docker run \
 		--name basic-postgres \
