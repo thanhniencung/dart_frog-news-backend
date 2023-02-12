@@ -9,7 +9,6 @@ import '../constant/role.dart';
 import '../database/postgres.dart';
 import '../log/log.dart';
 import '../model/user.dart';
-import '../security/pass.dart';
 
 class IUserRepo {
   Future<int>? saveUser(User user) {}

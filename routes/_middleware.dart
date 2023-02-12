@@ -52,6 +52,7 @@ Handler verifyJwt(Handler handler) {
       final user = decodeToken(token);
       return await handler(context.provide<User>(() => user!));
     } catch (e) {
+      print(e);
       return AppResponse().error(HttpStatus.badRequest, e.toString());
     }
   };

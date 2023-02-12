@@ -17,3 +17,10 @@ pg_admin:
         -e 'PGADMIN_DEFAULT_PASSWORD=111111' \
         -v /Users/ryan/workspace/docker/pg_admin/data:/var/lib/pgadmin \
         -d dpage/pgadmin4
+
+clean_build:
+	docker kill $(docker ps -q)
+	docker rmi $(docker images -a -q)
+	docker system prune -a
+	docker-compose up -d
+	docker-compose run db sh -c "psql -U postgres < /init_db.sql"

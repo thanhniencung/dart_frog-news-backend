@@ -5,7 +5,7 @@ import 'database/postgres.dart';
 import 'log/log.dart';
 
 final database = Database(
-  '192.168.1.12',
+  'host.docker.internal',
   5432,
   'news',
   dbUser: 'postgres',
@@ -22,14 +22,16 @@ Future<HttpServer> run(Handler handler, InternetAddress ip, int port) async {
 
 Middleware setupHandler() {
   return (handler) {
-    return handler.use(
-      provider<Database>(
-        (context) => database,
-      ),
-    ).use(
-      provider<AppLogger>(
-        (context) => appLogger,
-      ),
-    );
+    return handler
+        .use(
+          provider<Database>(
+            (context) => database,
+          ),
+        )
+        .use(
+          provider<AppLogger>(
+            (context) => appLogger,
+          ),
+        );
   };
 }
